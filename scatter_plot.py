@@ -1,17 +1,18 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import sys
+from describe import mean, standard_deviation
 
-def mean(values: list) -> float:
-    return sum(values) / len(values)
+# def mean(values: list) -> float:
+#     return sum(values) / len(values)
 
 
-def standard_deviation(values: list) -> float:
-    avg = mean(values)
-    sum_sq = 0
-    for n in values:
-        sum_sq += (n - avg) ** 2
-    return (sum_sq / (len(values) - 1)) ** 0.5
+# def standard_deviation(values: list) -> float:
+#     avg = mean(values)
+#     sum_sq = 0
+#     for n in values:
+#         sum_sq += (n - avg) ** 2
+#     return (sum_sq / (len(values) - 1)) ** 0.5
 
 
 def covariance(X: list, Y: list) -> float:
@@ -76,42 +77,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# import matplotlib.pyplot as plt
-# import sys
-# import pandas as pd
-
-# def scatter_plot(path: str):
-#     """
-#     """
-#     try:
-#         df = pd.read_csv(path, index_col="Index")
-#         if df["Hogwarts House"].isna().all():
-#             raise ValueError("Column 'Hogwarts House' is empty")
-#         courses = df.select_dtypes(include="number").dropna(axis=1, how="all").columns.tolist()
-
-#         for course in courses:
-#             col = df[course]
-#             standardized = (col - col.mean()) / col.std()
-#             plt.scatter(df.index, standardized, s=5, alpha=0.5, label=course)
-
-#         plt.show()
-#     except Exception as e:
-#         raise RuntimeError(f"{e}")
-
-# def main():
-#     if len(sys.argv) < 2:
-#         print("Usage: python describe.py <filename>")
-#         sys.exit(1)
-    
-#     try:
-#         if not sys.argv[1].endswith(".csv"):
-#             raise ValueError("File must be in .csv format")
-#         scatter_plot(sys.argv[1])
-    
-#     except Exception as e:
-#         print(f"Error: {e}")
-#         sys.exit(1)
-
-# if __name__ == "__main__":
-#     main()

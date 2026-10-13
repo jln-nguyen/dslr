@@ -34,6 +34,17 @@ def calculate_quartiles(data: list, q: float) -> float:
         return data[lower]
     return data[lower] + (data[lower + 1] - data[lower]) * frac
 
+def mean(values: list) -> float:
+    return sum(values) / len(values)
+
+
+def standard_deviation(values: list) -> float:
+    avg = mean(values)
+    sum_sq = 0
+    for n in values:
+        sum_sq += (n - avg) ** 2
+    return (sum_sq / (len(values) - 1)) ** 0.5
+
 def ft_describe(path: str):
     """
     """
@@ -53,21 +64,21 @@ def ft_describe(path: str):
                 total = total + n
             sorted_col.sort()
             sum_sq = 0
-            mean = total/len(sorted_col)
-            for n in clean_col:
-                sum_sq += (n - mean) ** 2
-            std = (sum_sq / (len(sorted_col) - 1)) ** 0.5
+            # mean = total/len(sorted_col)
+            # for n in clean_col:
+            #     sum_sq += (n - mean) ** 2
+            # std = (sum_sq / (len(sorted_col) - 1)) ** 0.5
             result[col] = {
                 "count": len(sorted_col),
-                "mean": mean,
-                "std" : std,
+                "mean": mean(sorted_col),
+                "std" : standard_deviation(sorted_col),
                 "min": sorted_col[0],
                 "25%": calculate_quartiles(sorted_col, 0.25),
                 "50%": calculate_quartiles(sorted_col, 0.5),
                 "75%": calculate_quartiles(sorted_col, 0.75),
                 "max": sorted_col[-1]
             }
-            # print(clean_col.describe())
+            # print(f"Describe method : {clean_col.describe()}")
         print_describe(numerical_cols, result)
     except Exception as e:
         raise RuntimeError(f"{e}")
