@@ -38,7 +38,7 @@ def pair_plot(path: str):
 		raise RuntimeError(f"{e}")
 
 def main():
-    if len(sys.argv) < 2:
+    if not len(sys.argv) == 2:
         print("Usage: python describe.py <filename>")
         sys.exit(1)
     
