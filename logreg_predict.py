@@ -10,7 +10,6 @@ def logreg_predict(csv_file: str, weight_file: str):
     try:
         with open(weight_file, "r") as file:
             weight = json.load(file)
-        # print(weight)
         features = weight["features"]
         means = weight["means"]
         stds = weight["stds"]
@@ -29,6 +28,7 @@ def logreg_predict(csv_file: str, weight_file: str):
         result = pd.DataFrame({"Hogwarts House": predicted}, index=df.index)
         result.index.name = "Index"
         result.to_csv("houses.csv")
+        
     except Exception as e:
         raise RuntimeError(f"{e}")
 
