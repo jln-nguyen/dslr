@@ -2,8 +2,23 @@ import matplotlib.pyplot as plt
 import sys
 import pandas as pd
 
+def calcul_score(df: pd.DataFrame, course: str) -> float:
+    """
+    This function takes a DataFrame and the name of a course to calculate the homogeneity of the scores between houses.
+    Less is the score, better the homogeneity is.
+    """
+    means = df.groupby("Hogwarts House")[course].mean()
+    overall_std = df[course].std()
+    if overall_std == 0 or pd.isna(overall_std):
+        return float("inf")
+    return means.std() / overall_std
+
+
 def histogram(path: str):
     """
+    This program takes a Dataset as input and creates a histogram for each course in the dataset.
+    The histogram shows the distribution of grades for each course, with different colors representing different Hogwarts Houses to see how the grades are distributed across the houses.
+    The course which is the most homogene in terms of grades across the houses will be print.
     """
     try:
         df = pd.read_csv(path, index_col="Index")
@@ -13,6 +28,16 @@ def histogram(path: str):
         houses = {"Gryffindor": "darkred", "Hufflepuff": "gold", "Slytherin": "darkgreen", "Ravenclaw": "darkblue"}
         rows = 4
         cols = 4
+
+        best_scores = float("inf")
+        best_house = ""
+        for course in courses:
+            # print(course)
+            score = calcul_score(df, course)
+            if score < best_scores:
+                best_scores = score
+                best_course = course
+        print(best_course)
         fig, axes = plt.subplots(rows, cols, figsize=(16, 8))
         grouped = df.groupby("Hogwarts House")
         axes = axes.flatten()

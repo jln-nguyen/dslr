@@ -3,8 +3,11 @@ import pandas as pd
 import sys
 
 def pair_plot(path: str):
-	"""
-	"""
+    """
+    This program takes a Dataset as input and creates a pair plot of all the features in the dataset. 
+    The points are colored based on the Hogwarts House of each student.
+    The pair plot shows the relationships between all the features in the dataset, with scatter plots on the upper triangle and histograms on the diagonal.
+    """
 	try:
 		df = pd.read_csv(path, index_col="Index")
 		if df["Hogwarts House"].isna().all():

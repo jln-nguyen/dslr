@@ -35,10 +35,16 @@ def calculate_quartiles(data: list, q: float) -> float:
     return data[lower] + (data[lower + 1] - data[lower]) * frac
 
 def mean(values: list) -> float:
+    """
+    Calculates the mean value in a series.
+    """
     return sum(values) / len(values)
 
 
 def standard_deviation(values: list) -> float:
+    """
+    Calculates the standard deviation between values of a series.
+    """
     avg = mean(values)
     sum_sq = 0
     for n in values:
@@ -47,6 +53,8 @@ def standard_deviation(values: list) -> float:
 
 def ft_describe(path: str):
     """
+    Takes a .csv dataset as a parameter and displays information about its numerical features.
+    Information displayed is: count, mean, standard deviation, minimum value, 25th quantile, 50th quantile, 75th quantile, maximum value.
     """
     try:
         df = pd.read_csv(path, index_col="Index")
@@ -64,10 +72,6 @@ def ft_describe(path: str):
                 total = total + n
             sorted_col.sort()
             sum_sq = 0
-            # mean = total/len(sorted_col)
-            # for n in clean_col:
-            #     sum_sq += (n - mean) ** 2
-            # std = (sum_sq / (len(sorted_col) - 1)) ** 0.5
             result[col] = {
                 "count": len(sorted_col),
                 "mean": mean(sorted_col),

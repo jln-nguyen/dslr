@@ -3,18 +3,6 @@ import pandas as pd
 import sys
 from describe import mean, standard_deviation
 
-# def mean(values: list) -> float:
-#     return sum(values) / len(values)
-
-
-# def standard_deviation(values: list) -> float:
-#     avg = mean(values)
-#     sum_sq = 0
-#     for n in values:
-#         sum_sq += (n - avg) ** 2
-#     return (sum_sq / (len(values) - 1)) ** 0.5
-
-
 def covariance(X: list, Y: list) -> float:
     if len(X) != len(Y):
         raise ValueError("X and Y must be the same length")
