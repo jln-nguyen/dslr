@@ -4,6 +4,9 @@ import sys
 from describe import mean, standard_deviation
 
 def covariance(X: list, Y: list) -> float:
+    """
+    Calculates the covariance between two lists of numbers.
+    """
     if len(X) != len(Y):
         raise ValueError("X and Y must be the same length")
     x_mean = mean(X)
@@ -15,10 +18,14 @@ def covariance(X: list, Y: list) -> float:
 
 
 def pearson_correlation(X: list, Y: list) -> float:
+    """
+    Calculates the Pearson correlation coefficient between two lists of numbers.
+    """
     return covariance(X, Y) / (standard_deviation(X) * standard_deviation(Y))
 
 def scatter_plot(path: str):
     """
+    Takes a .csv dataset as a parameter and displays a scatter plot of the two most correlated numerical features in the dataset.
     """
     try:
         df = pd.read_csv(path, index_col="Index")

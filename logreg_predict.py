@@ -6,6 +6,8 @@ from logreg_train import sigmoid
 
 def logreg_predict(csv_file: str, weight_file: str):
     """
+    Takes a .csv dataset and a .json weight file as parameters and predicts the Hogwarts House for each student in the dataset.
+    The predictions are saved to a new .csv file named 'houses.csv'.
     """
     try:
         with open(weight_file, "r") as file:

@@ -2,13 +2,16 @@ import sys
 import pandas as pd
 
 def truncate(text: str, width: int) -> str:
-    """"""
+    """
+    Truncates a string to a specified width, adding an ellipsis if necessary.
+    """
     if len(text) > width:
         return text[:width - 3] + "..."
     return text
 
 def print_describe(data: list, stats: dict):
     """
+    Prints a description of the data.
     """
     label_w = 8
     col_w = 16
@@ -26,6 +29,7 @@ def print_describe(data: list, stats: dict):
 
 def calculate_quartiles(data: list, q: float) -> float:
     """
+    Calculates the quartile of a list of numbers.
     """
     pos = (len(data) - 1) * q
     lower = int(pos)

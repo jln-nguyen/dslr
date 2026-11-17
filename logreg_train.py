@@ -15,13 +15,22 @@ HOUSES = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 #     return train_df, val_df
 
 def sigmoid(z):
+    """
+    Computes the sigmoid function for a given input z.
+    """
     return 1 / (1 + np.exp(-z))
 
 def load_train_data(path: str) -> pd.DataFrame:
+    """
+    Loads the training data from a .csv file and returns a DataFrame with rows containing non-null values for the "Hogwarts House" column.
+    """
     df = pd.read_csv(path, index_col="Index")
     return df.dropna(subset=["Hogwarts House"])
 
 def compute_stats(df: pd.DataFrame, features: list):
+    """
+    Computes the mean and standard deviation for each feature in the provided DataFrame.
+    """
     means, stds = {}, {}
     for course in features:
         values = df[course].dropna().tolist()
@@ -30,6 +39,9 @@ def compute_stats(df: pd.DataFrame, features: list):
     return means, stds
 
 def preprocess(df: pd.DataFrame, features: list, means: dict, stds: dict):
+    """
+    Preprocesses the DataFrame by filling missing values with the mean and standardizing the features.
+    """
     features_df = df[features].fillna(means)
     for course in features:
         features_df[course] = (features_df[course] - means[course]) / stds[course]
@@ -37,9 +49,15 @@ def preprocess(df: pd.DataFrame, features: list, means: dict, stds: dict):
     return np.hstack((np.ones((X.shape[0], 1)), X))
 
 # def compute_cost(h, y) -> float:
+#     """
+#     Computes the cost function for logistic regression.
+#     """
 #     return -np.mean(y * np.log(h + 1e-15) + (1 - y) * np.log(1 - h + 1e-15))
 
 def gradient_descent(X, y, learning_rate: float, iterations: int):
+    """
+    Performs gradient descent to optimize the weights for logistic regression.
+    """
     m, n = X.shape
     weights = np.zeros(n)
     for it in range(iterations):
@@ -51,6 +69,9 @@ def gradient_descent(X, y, learning_rate: float, iterations: int):
     return weights
 
 def train_one_vs_all(X, houses_col, house_names, learning_rate, iterations):
+    """
+    Trains a one-vs-all logistic regression model for each house and returns the weights.
+    """
     weights = {}
     for house in house_names:
         # print(f"--- {house} ---")
@@ -59,15 +80,24 @@ def train_one_vs_all(X, houses_col, house_names, learning_rate, iterations):
     return weights
 
 def predict_houses(X, weights: dict) -> list:
+    """
+    Predicts the Hogwarts House for each student based on the input features and trained weights.
+    """
     names = list(weights.keys())
     scores = np.column_stack([sigmoid(X @ weights[h]) for h in names])
     return [names[i] for i in scores.argmax(axis=1)]
 
 # def accuracy(predicted: list, truth) -> float:
-    # good = sum(p == t for p, t in zip(predicted, truth))
-    # return good / len(predicted)
+#     """
+#     Calculates the accuracy of the predictions compared to the true labels.
+#     """
+#     good = sum(p == t for p, t in zip(predicted, truth))
+#     return good / len(predicted)
 
 def save_model(path: str, features, means, stds, weights):
+    """
+    Saves the trained model parameters (features, means, standard deviations, and weights) to a .json file.
+    """
     model = {
         "features": features,
         "means": means,
@@ -78,6 +108,9 @@ def save_model(path: str, features, means, stds, weights):
         json.dump(model, f, indent=4)
 
 def logreg_train(path: str):
+    """
+    Takes a .csv dataset as a parameter, trains a logistic regression model to predict the Hogwarts House for each student, and saves the model parameters to a .json file.
+    """
     try:
         df = load_train_data(path)
         means, stds = compute_stats(df, FEATURES)
@@ -91,6 +124,9 @@ def logreg_train(path: str):
         raise RuntimeError(f"{e}") from e
 
 # def validate(path: str):
+#     """
+#     Validates the logistic regression model by splitting the dataset into training and validation sets, training the model on the training set, and evaluating its accuracy on both sets.
+#     """
 #     df = load_train_data(path)
 #     train_df, val_df = split_data(df)
 #     print(len(train_df), len(val_df))
